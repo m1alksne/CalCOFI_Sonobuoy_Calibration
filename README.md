@@ -8,9 +8,9 @@ This repository provides tools and documentation for calibrating received levels
 
 ## What This Repo Includes
 - A MATLAB script to build a calibration struct (`Sonobuoy_calibration_specs.mat`) containing:
-  - A/D voltage limits
-  - Sonobuoy hydrophone sensitivity
+  - A/D voltage limits for CalCOFI's Steinberg UR44 
   - ICOM radio modulation correction
+  - Sonobuoy hydrophone sensitivity for 53D, 53G, and 57A sonobuoys
   - Interpolated frequency response curves for 53D, 53G, and 57A sonobuoys
 - An example SPL calibration script that:
   - Reads in bounding-box-based detections from WhaleMoanDetector
@@ -59,7 +59,7 @@ $$
 
 Where:
 
-- `V = 20 * log10(ADC volts / bit resolution)`
+- `V` = 20 * log10(ADC volts / bit resolution)
 - `S` is the Sonobuoy hydrophone sensitivity (in dB re 1 V/µPa)
 - `ICOM` is the radio modulation gain (in dB re kHz/V)
 
