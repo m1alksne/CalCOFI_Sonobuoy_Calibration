@@ -73,8 +73,7 @@ Where:
 6. Store the final SPL in dB re 1 µPa.
 
 ```matlab
-% Define frequency band of interest
-freq_mask = (F >= f_min) & (F <= f_max);  % e.g., 15–25 Hz for B calls
+freq_mask = (F >= f_min) & (F <= f_max);  % e.g., 25–100 Hz for D calls
 [Pxx, F] = pwelch(signal_segment, hamming(fs), round(0.9*fs), fs, fs); % pwelch on signal segment 
 Pxx_corr = Pxx(freq_mask) ./ 10.^(F_dB(freq_mask) / 10); % Apply frequency response correction (in linear space)
 P_lin = trapz(F(freq_mask), Pxx_corr); % Integrate corrected power over the frequency band
@@ -82,6 +81,4 @@ P_lin = trapz(F(freq_mask), Pxx_corr); % Integrate corrected power over the freq
 X_dB = 10*log10(P_lin);
 SPL = X_dB + V + S + ICOM;
 ```
-
 ![SPL blue whale](https://github.com/m1alksne/CalCOFI_Sonobuoy_Calibration/blob/main/example_data/Calibrated_SPL_Bm_D_call_CalCOFI_2018_06.jpg)
-Calibrated blue whale D calls 
