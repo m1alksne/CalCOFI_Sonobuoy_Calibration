@@ -58,9 +58,10 @@ $$
 $$
 
 Where:
-- \( V = 20 \log_{10}(\text{ADC volts} / \text{bit resolution}) \)
-- \( S = \text{Sonobuoy sensitivity (dB re 1 V/µPa)} \)
-- \( \text{ICOM} = \text{Radio demodulation gain (dB)} \)
+
+- `V = 20 * log10(ADC volts / bit resolution)`
+- `S` is the Sonobuoy hydrophone sensitivity (in dB re 1 V/µPa)
+- `ICOM` is the radio demodulation gain (in dB)
 
 ## Example Workflow
 
