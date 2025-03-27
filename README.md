@@ -57,11 +57,6 @@ $$
 \text{SPL} = 10 \log_{10}(P_{\text{band}}) + V + S + \text{ICOM}
 $$
 
-Where:
-- \( V = 20 \log_{10}(\text{ADC volts} / \text{bit resolution}) \)
-- \( S \) = Sonobuoy hydrophone sensitivity (dB re 1 V/µPa)
-- \( \text{ICOM} \) = Radio modulation correction (dB)
-
 ## Example Workflow
 
 1. Load detection timestamps and corresponding WAV file.
