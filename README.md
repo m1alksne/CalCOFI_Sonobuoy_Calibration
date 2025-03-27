@@ -28,26 +28,39 @@ $$
 P_{xx}(f) = \text{Power spectrum in counts}^2/\text{Hz}
 $$
 
-### Step 2: Correct for system frequency response
+### Step 2: Convert PSD to dB and apply frequency response correction per bin
 $$
-P_{xx,cal}(f) = 10^{\left(\log_{10}(P_{xx}(f)) - \frac{F(f)}{10}\right)}
-$$
-Where \( F(f) \) is the system frequency response curve in dB.
-
-### Step 3: Integrate corrected power over the frequency band of interest
-$$
-P_{\text{band}} = \int_{f_1}^{f_2} P_{xx,cal}(f) \, df
+P_{xx,\text{dB}}(f) = 10 \log_{10}(P_{xx}(f))
 $$
 
-### Step 4: Convert to dB and apply calibration constants
+$$
+P_{xx,\text{corr,dB}}(f) = P_{xx,\text{dB}}(f) - F(f)
+$$
+
+Where \( F(f) \) is the system frequency response in dB at frequency \( f \).
+
+---
+
+### Step 3: Convert corrected PSD back to linear and integrate over frequency
+$$
+P_{xx,\text{corr}}(f) = 10^{P_{xx,\text{corr,dB}}(f)/10}
+$$
+
+$$
+P_{\text{band}} = \int_{f_1}^{f_2} P_{xx,\text{corr}}(f) \, df
+$$
+
+---
+
+### Step 4: Convert total band-limited power to SPL and apply calibration constants
 $$
 \text{SPL} = 10 \log_{10}(P_{\text{band}}) + V + S + \text{ICOM}
 $$
 
 Where:
 - \( V = 20 \log_{10}(\text{ADC volts} / \text{bit resolution}) \)
-- \( S = \text{Sonobuoy sensitivity (dB re 1 V/µPa)} \)
-- \( \text{ICOM} = \text{Radio demodulation gain (dB)} \)
+- \( S \) = Sonobuoy hydrophone sensitivity (dB re 1 V/µPa)
+- \( \text{ICOM} \) = Radio modulation correction (dB)
 
 ## Example Workflow
 
