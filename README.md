@@ -63,7 +63,7 @@ Where:
 - `S` is the Sonobuoy hydrophone sensitivity (in dB re 1 V/µPa)
 - `ICOM` is the radio modulation gain (in dB re kHz/V)
 
-![Blue whale](https://github.com/m1alksne/CalCOFI_Sonobuoy_Calibration/tree/main/example_data/Calibrated_SPL_Bm_D_call_CalCOFI_2018_06.jpg)
+![SPL blue whale](https://github.com/m1alksne/CalCOFI_Sonobuoy_Calibration/tree/main/example_data/Calibrated_SPL_Bm_D_call_CalCOFI_2018_06.jpg)
 Calibrated blue whale D calls 
 ## Example Workflow
 
