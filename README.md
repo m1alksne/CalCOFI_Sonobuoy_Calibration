@@ -67,8 +67,11 @@ $$
 6. Store the final SPL in dB re 1 µPa.
 
 ```matlab
-[Pxx, F] = pwelch(signal_segment, hamming(fs), round(0.9*fs), fs, fs);
-Pxx_corr = Pxx(freq_mask) ./ 10.^(F_dB(freq_mask) / 10);
-P_lin = trapz(F(freq_mask), Pxx_corr);
+% Define frequency band of interest
+freq_mask = (F >= f_min) & (F <= f_max);  % e.g., 15–25 Hz for B calls
+[Pxx, F] = pwelch(signal_segment, hamming(fs), round(0.9*fs), fs, fs); % extract segment 
+Pxx_corr = Pxx(freq_mask) ./ 10.^(F_dB(freq_mask) / 10); % Apply frequency response correction (in linear space)
+P_lin = trapz(F(freq_mask), Pxx_corr); % Integrate corrected power over the frequency band
+% Convert to dB and apply calibration constants
 X_dB = 10*log10(P_lin);
 SPL = X_dB + V + S + ICOM;
