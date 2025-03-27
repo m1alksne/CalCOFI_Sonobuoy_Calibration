@@ -75,10 +75,9 @@ Where:
 ```matlab
 freq_mask = (F >= f_min) & (F <= f_max);  % e.g., 25–100 Hz for D calls
 [Pxx, F] = pwelch(signal_segment, hamming(fs), round(0.9*fs), fs, fs); % pwelch on signal segment 
-Pxx_corr = Pxx(freq_mask) ./ 10.^(F_dB(freq_mask) / 10); % Apply frequency response correction (in linear space)
-P_lin = trapz(F(freq_mask), Pxx_corr); % Integrate corrected power over the frequency band
-% Convert to dB and apply calibration constants
-X_dB = 10*log10(P_lin);
-SPL = X_dB + V + S + ICOM;
+Pxx_corr = Pxx(freq_mask) ./ 10.^(F_dB(freq_mask) / 10); % Apply frequency response calibration (in linear space)
+P_lin = trapz(F(freq_mask), Pxx_corr); % Integrate calibrated power over the frequency band
+X_dB = 10*log10(P_lin); % Convert to dB
+SPL = X_dB + V + S + ICOM; % apply calibration constants
 ```
 ![SPL blue whale](https://github.com/m1alksne/CalCOFI_Sonobuoy_Calibration/blob/main/example_data/Calibrated_SPL_Bm_D_call_CalCOFI_2018_06.jpg)
