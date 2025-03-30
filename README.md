@@ -73,11 +73,13 @@ Where:
 6. Store the final SPL in dB re 1 µPa.
 
 ```matlab
-freq_mask = (F >= f_min) & (F <= f_max);  % e.g., 25–100 Hz for D calls
-[Pxx, F] = pwelch(signal_segment, hamming(fs), round(0.9*fs), fs, fs); % pwelch on signal segment 
-Pxx_corr = Pxx(freq_mask) ./ 10.^(F_dB(freq_mask) / 10); % Apply frequency response calibration (in linear space)
-P_lin = trapz(F(freq_mask), Pxx_corr); % Integrate calibrated power over the frequency band
-X_dB = 10*log10(P_lin); % Convert to dB
-SPL = X_dB + V + S + ICOM; % apply calibration constants
+[Pxx, F] = pwelch(signal_segment, hamming(fs), round(fs*0.9), fs, fs);
+Pxx_dB = 10*log10(Pxx);
+freq_indices = (F >= f_min) & (F <= f_max); % band of interest
+Pxx_cal_dB = Pxx_dB(freq_indices) - f_dB(freq_indices);  % subtract gain in dB ie convert to µPa²/Hz
+Pxx_cal_lin = 10.^(Pxx_cal_dB / 10);  % convert back to linear
+SPL_lin = trapz(F(freq_indices), Pxx_cal_lin);  % integrate
+SPL = 10*log10(SPL_lin);  % convert back to dB
+SPL_calibrated = SPL + V + S + ICOM;  % apply calibration constants
 ```
 ![SPL blue whale](https://github.com/m1alksne/CalCOFI_Sonobuoy_Calibration/blob/main/example_data/Calibrated_SPL_Bm_D_call_CalCOFI_2018_06.jpg)

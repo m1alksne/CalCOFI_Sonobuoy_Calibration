@@ -47,9 +47,8 @@ for i = 1:length(filtered_wav_files)
     [x, fs] = audioread(wav_path, 'Native');
     x = double(x);
     audio_info = audioinfo(wav_path);
-    %disp(audio_info.BitsPerSample)
-    %BitDepth = 2^(audio_info.BitsPerSample); 
-    BitDepth = 2^32;
+    disp(audio_info.BitsPerSample)
+    BitDepth = 2^(audio_info.BitsPerSample);
     V = 20*log10(volts/BitDepth);
     
     % Find detections corresponding to this wav file
