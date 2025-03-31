@@ -6,11 +6,11 @@ clear all;
 close all;
 %% define paths:
 calibration_specs = load('L:\CalCOFI\CalCOFI_Sonobuoy\Acoustic_density_estimation\CalCOFI_Sonobuoy_Calibration\Sonobuoy_calibration_specs.mat');
-detections_dir = 'L:\WhaleMoanDetector_predictions\analysis\predictions_context_filtered\new_context_filter\CalCOFI_2025_01_raw_detections_context_filtered.txt';
-wav_dir = 'O:\CC2501RL\CC2501RL_Sonobuoy_Recordings\OMNI';
+detections_dir = 'L:\WhaleMoanDetector_predictions\analysis\predictions_context_filtered\new_context_filter\RL_calculated\extreme_values\allDetections_extreme.txt';
+wav_dir = 'M:\CalCOFI 2010-01\CC1001 Recordings\SB Recs (sonobuoy)\DIFAR recs';
 %% Define Sonobuoy type:
-buoy_type = 'OMNI';   % 'OMNI or 'DIFAR'
-model_type = 'i53G';  % 'i53G','i53D', or 'i57A'
+buoy_type = 'DIFAR';   % 'OMNI or 'DIFAR'
+model_type = 'i53D';  % 'i53G','i53D', or 'i57A'
 %% Plot calibrated RLs?
 plot_RL_hist = true;
 %% Load detections 
@@ -48,8 +48,8 @@ for i = 1:length(filtered_wav_files)
     x = double(x);
     audio_info = audioinfo(wav_path);
     %disp(audio_info.BitsPerSample)
-    %BitDepth = 2^(audio_info.BitsPerSample); 
-    BitDepth = 2^32;
+    BitDepth = 2^(audio_info.BitsPerSample); 
+    %BitDepth = 2^32;
     V = 20*log10(volts/BitDepth);
     
     % Find detections corresponding to this wav file
@@ -99,10 +99,16 @@ for i = 1:length(filtered_wav_files)
         
         SPL_lin = trapz(F(freq_indices), Pxx_cal_lin);  % µPa²
         
+        PSD = Pxx_cal_dB - 10*log10(detections.min_frequency(idx) - detections.max_frequency(idx));
+        
+        %SPL_rms = sqrt(SPL_lin); % can do it either way and you get the same thing. so its uPa either way. 
+        
+        %SPL = 20*log10(SPL_rms);
         % convert back to dB
         SPL = 10*log10(SPL_lin);
         SPL_calibrated = SPL + V + S + ICOM; % apply additional calibrations
         detections.SPL_calibrated_dB(idx) = SPL_calibrated; 
+        detections.PSD_calibrated_dB(idx) = PSD; %pressure spectral density
 
     end
     
