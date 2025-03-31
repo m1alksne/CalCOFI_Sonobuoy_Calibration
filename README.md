@@ -81,7 +81,7 @@ PSD = Pxx_cal_dB - 10*log10(detections.min_frequency(idx) - detections.max_frequ
 Pxx_cal_lin = 10.^(Pxx_cal_dB / 10);  % convert back to linear
 SPL_lin = trapz(F(freq_indices), Pxx_cal_lin);  % integrate
 SPL = 10*log10(SPL_lin);  % convert back to dB
-SPL_calibrated = SPL + V + S + ICOM;  % apply calibration constants. dB re 1 µPa^2
-PSD_calibrated = PSD + V + S + ICOM;  % apply calibration constants. dB re 1 µPa^2/Hz
+SPL_calibrated = SPL + V + S + ICOM;  % apply calibration constants. dB re 1 µPa²
+PSD_calibrated = PSD + V + S + ICOM;  % apply calibration constants. dB re 1 µPa²/Hz
 ```
 ![SPL blue whale](https://github.com/m1alksne/CalCOFI_Sonobuoy_Calibration/blob/main/example_data/Calibrated_SPL_Bm_D_call_CalCOFI_2018_06.jpg)
