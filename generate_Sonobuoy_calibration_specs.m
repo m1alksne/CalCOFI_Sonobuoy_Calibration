@@ -15,17 +15,14 @@ OMNI = struct();
 % These include:
 % - volts: Maximum voltage range of the A/D converter (Steinberg)
 % - ICOM: Radio modulation factor in dB (46 dB corresponds to 0.049 V/kHz)
-% - SB_sensitivity: Sonobuoy sensitivity in dB re 1 µPa/kHz, 
+% - SB_sensitivity: Sonobuoy sensitivity in dB re 1 µPa/kHz.
 %   derived from 122 dB re 1 µPa - 20*log10(FM deviation in kHz)
 
 DIFAR.volts = 5;             % Steinberg A/D converter voltage range
-DIFAR.ICOM = 46;             % Radio modulation: 20*log10(1 / 0.049 V/kHz) ? 46 dB
-DIFAR.SB_sensitivity = 90;   % 122 dB re 1 µPa - 20*log10(40 kHz deviation)
+DIFAR.ICOM = 46;             % Radio modulation: 20*log10(1 / 0.049 V/kHz) = 46 dB
 
 OMNI.volts = 5;
 OMNI.ICOM = 46;
-OMNI.SB_sensitivity = 94;    % 122 dB re 1 µPa - 20*log10(25 kHz deviation)
-
 %% 3. Define Sonobuoy frequency response curves
 % These are band-specific system gain values (in dB) from manufacturer plots (provided by JAH).
 % Response curves are interpolated to 1 Hz spacing over 0–10,000 Hz.
@@ -34,19 +31,24 @@ OMNI.SB_sensitivity = 94;    % 122 dB re 1 µPa - 20*log10(25 kHz deviation)
 freq = [1 10 100 1000 10000]; % Key frequencies pulled from response plots
 f = (0:1:10000);              % Interpolation target: 1 Hz resolution
 
-% 3b. DIFAR 53G (used for both DIFAR and OMNI)
+% 3b. DIFAR 53G 
 DIFAR.i53G.f = f';
-DIFAR.i53G.response_dB = interp1(freq, [-40 -17 0 20 -22], f, 'linear', 'extrap')';
+DIFAR.i53G.SB_sensitivity = 90;   % 122 dB re 1 µPa - 20*log10(40 kHz deviation)
+DIFAR.i53G.response_dB = interp1(freq, [-40 -20 0 20 -22], f, 'linear', 'extrap')';
 
+% 3c. OMNI 53G
 OMNI.i53G.f = f';
-OMNI.i53G.response_dB = interp1(freq, [-40 -17 0 20 -22], f, 'linear', 'extrap')';
+OMNI.i53G.SB_sensitivity = 90;   % 116 dB re 1 µPa - 20*log10(19 kHz deviation)
+OMNI.i53G.response_dB = interp1(freq, [-35 -15 0 22 7], f, 'linear', 'extrap')';
 
-% 3c. DIFAR 53D
+% 3d. DIFAR 53D
 DIFAR.i53D.f = f';
+DIFAR.i53D.SB_sensitivity = 90;   % 122 dB re 1 µPa - 20*log10(40 kHz deviation)
 DIFAR.i53D.response_dB = interp1(freq, [-31 -18 0 20 -40], f, 'linear', 'extrap')';
 
-% 3d. OMNI 57A
+% 3e. OMNI 57A
 OMNI.i57A.f = f';
+OMNI.i57A.SB_sensitivity = 94;   % 122 dB re 1 µPa - 20*log10(25 kHz deviation)
 OMNI.i57A.response_dB = interp1(freq, [-35 -14 0 17 20], f, 'linear', 'extrap')';
 
 % -------------------------------------------------------------
@@ -58,7 +60,7 @@ OMNI.i57A.response_dB = interp1(freq, [-35 -14 0 17 20], f, 'linear', 'extrap')'
 % - i53X.response_dB: Frequency response (dB) at 1 Hz resolution
 % -------------------------------------------------------------
 
-save('L:\CalCOFI\CalCOFI_Sonobuoy\Acoustic_density_estimation\Sonobuoy_calibration\Sonobuoy_calibration_specs.mat', 'DIFAR', 'OMNI');
+save('L:\CalCOFI\CalCOFI_Sonobuoy\Acoustic_density_estimation\CalCOFI_Sonobuoy_Calibration\Sonobuoy_calibration_specs.mat', 'DIFAR', 'OMNI');
 
 % How to apply calibration to compute calibrated Sound Pressure Level (SPL):
 %

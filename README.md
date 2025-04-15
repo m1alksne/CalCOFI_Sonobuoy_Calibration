@@ -77,11 +77,9 @@ Where:
 Pxx_dB = 10*log10(Pxx);
 freq_indices = (F >= f_min) & (F <= f_max); % band of interest
 Pxx_cal_dB = Pxx_dB(freq_indices) - f_dB(freq_indices);  % subtract gain in dB 
-PSD = Pxx_cal_dB - 10*log10(f_max - f_min) % normalize over bandwidth
 Pxx_cal_lin = 10.^(Pxx_cal_dB / 10);  % convert back to linear
 SPL_lin = trapz(F(freq_indices), Pxx_cal_lin);  % integrate
 SPL = 10*log10(SPL_lin);  % convert back to dB
-SPL_calibrated = SPL + V + S + ICOM;  % apply calibration constants. dB re 1 µPa²
-PSD_calibrated = PSD + V + S + ICOM;  % apply calibration constants. dB re 1 µPa²/Hz
+SPL_calibrated = SPL + V + S + ICOM;  % apply calibration constants. dB re 1 µPa
 ```
 ![SPL blue whale](https://github.com/m1alksne/CalCOFI_Sonobuoy_Calibration/blob/main/example_data/Calibrated_SPL_Bm_D_call_CalCOFI_2018_06.jpg)
